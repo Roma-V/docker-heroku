@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Heroku CLI
-      run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      run: npm install -g heroku
 
     - name: token
       run: heroku auth:token

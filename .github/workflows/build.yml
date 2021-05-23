@@ -14,11 +14,8 @@ jobs:
     - name: Install Heroku CLI
       run: sudo npm install -g --force heroku
 
-    - name: token
-      run: heroku auth:token
-
     - name: Login to Heroku
-      run: docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
+      run: docker login --username=_ --password=${{ secrets.HEROKU_API_KEY }} registry.heroku.com
     
     - name: Build and push
       run: heroku container:push web && heroku container:release web

@@ -10,26 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - name: Install Heroku CLI
-      run: sudo npm install -g --force heroku
-
-    - name: Login to Docker
-      run: docker login --username=_ --password=${{ secrets.HEROKU_API_KEY }} registry.heroku.com
-
-    - name: Build
-      run: docker build . -t registry.heroku.com/docker-course-rv/web
-    
-    - run: heroku container:login
+    - name: Login to Heroku Container registry
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login 
+    - name: Build and push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
-    - name: Push
-      run: docker push registry.heroku.com/docker-course-rv/web
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
     - name: Release
-      run: heroku container:release web -app=docker-course-rv
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 

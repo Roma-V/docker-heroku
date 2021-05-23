@@ -16,8 +16,11 @@ jobs:
 
     - name: Login to Heroku
       run: docker login --username=_ --password=${{ secrets.HEROKU_API_KEY }} registry.heroku.com
-    - run: heroku container:login
     
+    - run: heroku container:login
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
     - name: Build and push
       run: heroku container:push web --app=docker-course-rv
 

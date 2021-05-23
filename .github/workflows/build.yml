@@ -1,4 +1,4 @@
-name: Release DevOps with Docker
+name: Release DevOps on Heroku
 
 on:
   push:
@@ -11,14 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v1 
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Install Heroku CLI
+      run: sudo snap install --classic heroku
+
+    - name: Login to Heroku
+      run: docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
     
     - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: devopsdockeruh/coursepage:latest
+      run: heroku container:push web && heroku container:release web

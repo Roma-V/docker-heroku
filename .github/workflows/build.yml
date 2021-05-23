@@ -23,6 +23,10 @@ jobs:
 
     - name: Build and push
       run: heroku container:push web --app=docker-course-rv
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
     - name: Release
       run: heroku container:release web -app=docker-course-rv
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}

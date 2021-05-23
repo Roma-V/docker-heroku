@@ -27,6 +27,6 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
     - name: Release
-      run: heroku container:release web -app=docker-course-rv
+      run: heroku container:release web
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
